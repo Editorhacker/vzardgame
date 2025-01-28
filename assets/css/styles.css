@@ -1564,12 +1564,13 @@ h4 { font-size: 1.5rem; }
     }
 
     .social-verification-section {
-        width: 198px;
+        width: auto;
         padding: 15px;
         margin-bottom: 15px;
     }
 
     .social-proof-group {
+        width: auto;
         gap: 10px;
     }
 
@@ -1640,7 +1641,7 @@ h4 { font-size: 1.5rem; }
     }
 
     .social-channel {
-        width: 163px;
+        width: 168px;
         padding: 8px;
     }
 
