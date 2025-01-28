@@ -35,10 +35,14 @@ const registrationSchema = new mongoose.Schema({
             type: String,
             required: true
         },
+         discord: {
+            type: String,
+            required: true
+        },
         socialProof: {
             youtube: String,
             instagram: String,
-            discord: String
+           
         },
         role: {
             type: String,
