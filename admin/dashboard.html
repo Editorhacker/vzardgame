@@ -94,9 +94,9 @@
             z-index: 1001;
         }
         .logout-btn {
-            position: relative;
-            top: 9px;
-            right: 20px;
+            position: absolute;
+            top: 32px;
+            right: 24px;
         }
         .no-registrations {
             text-align: center;
@@ -107,7 +107,7 @@
         @media screen and (max-width: 768px) {
             .dashboard-container {
                 padding: 1rem;
-                margin: 10px auto;
+                margin: 250px auto;
             }
             
             .registration-header {
@@ -142,7 +142,7 @@
             .dashboard-container {
                 width: 100%;
                 padding: 0.8rem;
-                margin: 0;
+                margin: 250px auto;
                 border-radius: 0;
             }
             
@@ -173,6 +173,9 @@
             }
             
             .logout-btn {
+                position: relative;
+                right: -116px;
+                top: -26px;
                 padding: 8px 12px;
                 font-size: 0.9rem;
             }
@@ -250,6 +253,7 @@
                                 <div class="player-item">
                                     <p><strong>${player.name}</strong> (${player.role})</p>
                                     <p>ID: ${player.inGameId}</p>
+                                    <p>Discord: ${player.discord}</p>
                                     <div class="social-proof">
                                         ${player.socialProof.youtube ? `
                                             <img src="${player.socialProof.youtube}" alt="YouTube Proof" onclick="showImage(this.src)">
