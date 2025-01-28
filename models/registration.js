@@ -19,7 +19,7 @@ const registrationSchema = new mongoose.Schema({
         type: Number,
         required: true,
         min: [1, 'Team size must be at least 1'],
-        max: [4, 'Team size cannot exceed 4']
+        max: [5, 'Team size cannot exceed 5']
     },
     experience: {
         type: String,
