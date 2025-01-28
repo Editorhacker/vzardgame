@@ -34,15 +34,16 @@ const registrationSchema = new mongoose.Schema({
         inGameId: {
             type: String,
             required: true
+
         },
-         discord: {
+        discord: {
             type: String,
             required: true
         },
         socialProof: {
             youtube: String,
-            instagram: String,
-           
+            instagram: String
+            // discord: String
         },
         role: {
             type: String,
