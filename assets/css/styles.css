@@ -939,6 +939,8 @@ h5 { font-size: 1.25rem; }
 
 /* Responsive Design */
 @media (max-width: 768px) {
+    
+
     h1 { font-size: 2.5rem; }
     h2 { font-size: 2rem; }
     h3 { font-size: 1.5rem; }
@@ -1347,9 +1349,13 @@ h5 { font-size: 1.25rem; }
 }
 
 @media screen and (max-width: 480px) {
+    h2 {
+        font-size: 1.3rem;
+    }
+
     .registration-form-container {
-        width: 100%;
-        margin: 60px auto;
+        width: auto;
+        margin: 150px auto;
         padding: 15px;
         border-radius: 10px;
         background: rgba(26, 26, 46, 0.95);
@@ -1470,8 +1476,8 @@ h5 { font-size: 1.25rem; }
 
 @media screen and (max-width: 480px) {
     .registration-form-container {
-        width: 100%;
-        margin: 60px auto;
+        width: auto;
+        margin: 150px auto;
         padding: 15px;
         border-radius: 10px;
         background: rgba(26, 26, 46, 0.95);
@@ -1676,8 +1682,9 @@ h5 { font-size: 1.25rem; }
 @media screen and (max-width: 768px) {
     .registration-form-container {
         padding: 20px;
-        margin: 60px auto;
+        margin: 100px auto;
         width: calc(100% - 20px);
+        border-radius: 20px;
     }
 
     .form-group {
@@ -1714,7 +1721,7 @@ h5 { font-size: 1.25rem; }
     .navbar .container {
         flex-direction: column;
         text-align: center;
-        padding: 10px;
+        padding: inherit;
     }
 
     .nav-links {
@@ -1726,13 +1733,15 @@ h5 { font-size: 1.25rem; }
 
 @media screen and (max-width: 480px) {
     .registration-form-container {
+        width: auto;
         padding: 15px;
+        margin-top: 150px;
     }
 
     h6 {
         margin-top: -10px;
         font-family: 'Cinzel', serif;
-        margin-bottom: 1rem;
+        margin-bottom: 0;
         line-height: 1.2;
         margin-left: 9.5rem;
         font-size: larger;
