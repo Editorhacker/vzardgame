@@ -1738,7 +1738,7 @@ h5 { font-size: 1.25rem; }
     h6 {
         margin-top: -10px;
         font-family: 'Cinzel', serif;
-        margin-bottom: 1rem;
+        margin-bottom: 0;
         line-height: 1.2;
         margin-left: 9.5rem;
         font-size: larger;
