@@ -7,7 +7,7 @@ const Registration = require('./models/registration');
 const app = express();
 
 // MongoDB Connection
-mongoose.connect('mongodb+srv://adi:adi@vzard.eyygl.mongodb.net/bgmi_tournament', {
+mongoose.connect('mongodb+srv://adi:adi@vzard.eyygl.mongodb.net/bgmi', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(() => {
@@ -163,9 +163,9 @@ app.post('/register', async (req, res) => {
     }
 });
 
-// Twilio Configuration
-const twilio = require('twilio');
-const twilioClient = twilio('ACa0e3436a49797b3e4aa5a5b5e941f6fc', '3c6e98003fc56ad91347b86893b6b59b');
+// Fast2SMS Configuration
+const fast2sms = require('fast-two-sms');
+const FAST2SMS_API_KEY = 'bYwIv6Pulnp8kiTsLQO1qtrxAVCR7ySGcNaJ53jKXHFmZ9e2oUri7v4B6TKfAsuFVdptPDJzc28NObm0'; // Replace with your Fast2SMS API key
 const verificationCodes = new Map();
 
 // Generate OTP endpoint
@@ -177,28 +177,27 @@ app.post('/api/send-otp', async (req, res) => {
         const otp = Math.floor(100000 + Math.random() * 900000); // 6-digit OTP
         console.log('Generated OTP:', otp);
         
-        console.log('Attempting to send SMS with Twilio...');
-        const messageResponse = await twilioClient.messages.create({
-            body: `Your VZard Game registration OTP is: ${otp}`,
-            to: `+91${phone}`, // Add India country code
-            from: '+18312822966'
-        });
+        console.log('Attempting to send SMS with Fast2SMS...');
+        const options = {
+            authorization: FAST2SMS_API_KEY,
+            message: `Your VZard Game registration OTP is: ${otp}`,
+            numbers: [phone]
+        };
         
-        console.log('Twilio response:', messageResponse.sid);
+        const response = await fast2sms.sendMessage(options);
+        console.log('Fast2SMS response:', response);
 
-        verificationCodes.set(phone, {
-            code: otp.toString(),
-            timestamp: Date.now()
-        });
-
-        res.json({ success: true, message: 'OTP sent successfully' });
+        if (response.return === true) {
+            verificationCodes.set(phone, {
+                code: otp.toString(),
+                timestamp: Date.now()
+            });
+            res.json({ success: true, message: 'OTP sent successfully' });
+        } else {
+            throw new Error('Failed to send SMS');
+        }
     } catch (error) {
-        console.error('Error details:', {
-            message: error.message,
-            code: error.code,
-            status: error.status,
-            moreInfo: error.moreInfo
-        });
+        console.error('Error details:', error);
         res.status(500).json({ 
             success: false, 
             message: 'Failed to send OTP',
