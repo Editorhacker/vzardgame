@@ -7,7 +7,7 @@ const Registration = require('./models/registration');
 const app = express();
 
 // MongoDB Connection
-mongoose.connect('mongodb+srv://adi:adi@vzard.eyygl.mongodb.net/bgmi', {
+mongoose.connect('mongodb+srv://adi:adi@vzard.eyygl.mongodb.net/bgmi_tournament', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(() => {
