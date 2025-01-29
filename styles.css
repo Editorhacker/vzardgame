@@ -692,13 +692,13 @@ body {
 }
 
 .registration-form-container {
-    max-width: 800px;
-    margin: 0 auto;
+    background: rgba(26, 26, 46, 0.95);
     padding: 2rem;
-    background: var(--card-background);
-    border-radius: 20px;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    max-width: 800px;
+    margin: 60px auto;
+    width: 90%;
 }
 
 .registration-form {
@@ -774,25 +774,84 @@ body {
 }
 
 .terms-container {
-    margin: 1rem 0;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    max-height: 400px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
 }
 
-.terms-checkbox {
+.terms-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.terms-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.terms-container::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+}
+
+.rules-section {
+    margin-bottom: 20px;
+}
+
+.rules-section h4 {
+    color: #fff;
+    margin: 20px 0 10px;
+    font-size: 1.1em;
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    color: var(--text-color);
-    cursor: pointer;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 8px;
 }
 
-.terms-link {
-    color: var(--primary-color);
-    text-decoration: none;
-    transition: opacity 0.3s ease;
+.rules-section h4 i {
+    margin-right: 10px;
+    color: #4a90e2;
 }
 
-.terms-link:hover {
-    opacity: 0.8;
+.rules-section ul {
+    list-style: none;
+    padding-left: 30px;
+    margin: 10px 0;
+}
+
+.rules-section ul li {
+    position: relative;
+    margin-bottom: 8px;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.rules-section ul li:before {
+    content: "•";
+    color: #4a90e2;
+    position: absolute;
+    left: -20px;
+    font-size: 1.2em;
+}
+
+.terms-agreement {
+    margin-top: 20px;
+    padding: 15px;
+    background: rgba(74, 144, 226, 0.1);
+    border-radius: 8px;
+    border: 1px solid rgba(74, 144, 226, 0.3);
+}
+
+.terms-agreement .magical-checkbox {
+    margin: 0;
+}
+
+.terms-agreement .magical-checkbox span {
+    font-weight: 500;
+    color: #fff;
 }
 
 .fee-info {
@@ -862,6 +921,38 @@ body {
 
     .player-info {
         padding: 1rem;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .registration-form-container {
+        width: 95%;
+        padding: 1.5rem;
+    }
+    
+    .terms-container {
+        max-height: 300px;
+    }
+    
+    .rules-section h4 {
+        font-size: 1em;
+    }
+    
+    .rules-section ul li {
+        font-size: 0.9em;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .registration-form-container {
+        width: 100%;
+        padding: 1rem;
+        margin: 60px auto;
+    }
+    
+    .terms-container {
+        padding: 15px;
+        max-height: 250px;
     }
 }
 
@@ -1938,4 +2029,56 @@ body {
         transform: translate(-50%, 20px);
         opacity: 0;
     }
+}
+
+/* OTP Styles */
+#sendOtpBtn {
+    margin-left: 10px;
+    padding: 5px 15px;
+    font-size: 0.9em;
+}
+
+#otpGroup {
+    margin-top: 10px;
+}
+
+#verifyOtpBtn {
+    margin-left: 10px;
+    padding: 5px 15px;
+    font-size: 0.9em;
+}
+
+.input-group button {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+}
+
+.verified-badge {
+    display: inline-block;
+    font-size: 0.9em;
+    font-weight: 500;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background-color: rgba(0, 255, 0, 0.1);
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Style for verified phone input */
+input[data-verified="true"] {
+    background-color: rgba(0, 255, 0, 0.05);
+    border-color: #28a745 !important;
 }

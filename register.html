@@ -15,7 +15,7 @@
             border: 1px solid #ddd;
             border-radius: 5px;
             font-size: 16px;
-            background: transparent;
+            background: rgba(26, 26, 46, 0.95);
             transition: all 0.3s ease;
         }
         
@@ -107,9 +107,10 @@
         <div class="container">
             <div class="logo">
                 <a href="/" class="logo-link">
-                    <img src="assets/images/logo.png" alt="Survival Series 4 Logo" style="height: 100px; width: auto;">
-                    Survival Series 4
+                    <img src="assets/images/logo.png" alt="Survival Series 4 Logo" style="height: 120px; width: auto;">
+                    Vzard Gaming Tournament Orgnizer 
                 </a>
+                <h6>Survival Series 4</h6>
             </div>
         </div>
     </nav>
@@ -145,6 +146,14 @@
                                        pattern="[0-9]{10}" placeholder=" ">
                                 <label for="teamPhone">Phone Number</label>
                                 <div class="error-message"></div>
+                                <button type="button" id="sendOtpBtn" class="btn btn-secondary btn-sm">Send OTP</button>
+                            </div>
+                            <div class="input-group" id="otpGroup" style="display: none;">
+                                <input type="text" id="otp" name="otp" required 
+                                       pattern="[0-9]{6}" placeholder=" ">
+                                <label for="otp">Enter OTP</label>
+                                <div class="error-message"></div>
+                                <button type="button" id="verifyOtpBtn" class="btn btn-primary btn-sm">Verify OTP</button>
                             </div>
                         </div>
                     </div>
@@ -204,12 +213,55 @@
                     <!-- Step 5: Terms and Submit -->
                     <div class="form-step" data-step="5" style="display: none">
                         <div class="form-group">
-                            <h3><i class="fas fa-file-contract"></i> Terms & Conditions</h3>
+                            <h3><i class="fas fa-file-contract"></i> Tournament Rules & Regulations</h3>
                             <div class="terms-container">
-                                <label class="magical-checkbox">
-                                    <input type="checkbox" required name="terms">
-                                    <span>I agree to the tournament rules and terms of participation</span>
-                                </label>
+                                <div class="rules-section">
+                                    <h4><i class="fas fa-users"></i> 1. Player & Team Registration</h4>
+                                    <ul>
+                                        <li>All players must be registered before participating. Unregistered players will lead to team disqualification.</li>
+                                        <li>Solos will be kicked. If a team is found playing as solo or duo, their match result will not be considered.</li>
+                                    </ul>
+
+                                    <h4><i class="fas fa-video"></i> 2. POV Recording & Fair Play</h4>
+                                    <ul>
+                                        <li>At least two players per team must record their POV (Point of View) with in-game voice chat when requested.</li>
+                                        <li>The POV must be RAW (Full Match Recording), and players must be ready to provide it when asked.</li>
+                                        <li>If a player is suspected of foul play, they must provide POV for the next match.</li>
+                                        <li>Failure to provide requested POV will result in disqualification.</li>
+                                        <li>Allegations against a team must be backed by proper evidence before any action is taken.</li>
+                                    </ul>
+
+                                    <h4><i class="fas fa-trophy"></i> 3. Match & Result Submission</h4>
+                                    <ul>
+                                        <li>Teams must take a screenshot of every result for verification.</li>
+                                        <li>Respectful behavior is mandatory. Harassment, abuse, discrimination, or toxicity will result in team disqualification.</li>
+                                        <li>Teaming up (collaborating with another team unfairly) is strictly prohibited and will result in disqualification.</li>
+                                    </ul>
+
+                                    <h4><i class="fas fa-gamepad"></i> 4. Gameplay & Fairness Policies</h4>
+                                    <ul>
+                                        <li>Use of third-party apps, mods, or exploiting game bugs is strictly prohibited.</li>
+                                        <li>All four maps must be downloaded by every player.</li>
+                                        <li>Rooms will not be restarted unless there is proof of an issue affecting more than 32 players.</li>
+                                    </ul>
+
+                                    <h4><i class="fas fa-mobile-alt"></i> 5. Device Restrictions</h4>
+                                    <ul>
+                                        <li>PC emulators are strictly prohibited. Players using emulators will be disqualified along with their team.</li>
+                                    </ul>
+
+                                    <h4><i class="fas fa-award"></i> 6. Tournament Participation & Prizes</h4>
+                                    <ul>
+                                        <li>Participants must play all games in the tournament to be eligible for prizes.</li>
+                                    </ul>
+                                </div>
+
+                                <div class="terms-agreement">
+                                    <label class="magical-checkbox">
+                                        <input type="checkbox" required name="terms" id="termsCheckbox">
+                                        <span>I have read and agree to the tournament rules and regulations</span>
+                                    </label>
+                                </div>
                             </div>
                         </div>
 
@@ -809,4 +861,5 @@
         }
     </script>
 </body>
+<script src="script.js"></script>
 </html>

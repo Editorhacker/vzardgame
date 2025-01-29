@@ -7,7 +7,7 @@ const Registration = require('./models/registration');
 const app = express();
 
 // MongoDB Connection
-mongoose.connect('mongodb+srv://adi:adi@vzard.eyygl.mongodb.net/bgmi_tournament', {
+mongoose.connect('mongodb+srv://adi:adi@vzard.eyygl.mongodb.net/bgmi', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(() => {
@@ -161,6 +161,83 @@ app.post('/register', async (req, res) => {
             message: errorMessage
         });
     }
+});
+
+// Twilio Configuration
+const twilio = require('twilio');
+const twilioClient = twilio('ACa0e3436a49797b3e4aa5a5b5e941f6fc', '3c6e98003fc56ad91347b86893b6b59b');
+const verificationCodes = new Map();
+
+// Generate OTP endpoint
+app.post('/api/send-otp', async (req, res) => {
+    try {
+        const { phone } = req.body;
+        console.log('Received phone number:', phone);
+        
+        const otp = Math.floor(100000 + Math.random() * 900000); // 6-digit OTP
+        console.log('Generated OTP:', otp);
+        
+        console.log('Attempting to send SMS with Twilio...');
+        const messageResponse = await twilioClient.messages.create({
+            body: `Your VZard Game registration OTP is: ${otp}`,
+            to: `+91${phone}`, // Add India country code
+            from: '+18312822966'
+        });
+        
+        console.log('Twilio response:', messageResponse.sid);
+
+        verificationCodes.set(phone, {
+            code: otp.toString(),
+            timestamp: Date.now()
+        });
+
+        res.json({ success: true, message: 'OTP sent successfully' });
+    } catch (error) {
+        console.error('Error details:', {
+            message: error.message,
+            code: error.code,
+            status: error.status,
+            moreInfo: error.moreInfo
+        });
+        res.status(500).json({ 
+            success: false, 
+            message: 'Failed to send OTP',
+            error: error.message
+        });
+    }
+});
+
+// Verify OTP endpoint
+app.post('/api/verify-otp', (req, res) => {
+    const { phone, otp } = req.body;
+    console.log('Verifying OTP:', { phone, otp });
+    const storedData = verificationCodes.get(phone);
+    console.log('Stored OTP data:', storedData);
+
+    if (!storedData) {
+        return res.json({ success: false, message: 'No OTP found for this number' });
+    }
+
+    // Check if OTP is expired (5 minutes validity)
+    if (Date.now() - storedData.timestamp > 5 * 60 * 1000) {
+        verificationCodes.delete(phone);
+        return res.json({ success: false, message: 'OTP has expired' });
+    }
+
+    if (storedData.code === otp) {
+        verificationCodes.delete(phone);
+        return res.json({ 
+            success: true, 
+            message: 'Phone number verified successfully',
+            verified: true
+        });
+    }
+
+    res.json({ 
+        success: false, 
+        message: 'Invalid OTP. Please try again.',
+        verified: false
+    });
 });
 
 // Error handling middleware

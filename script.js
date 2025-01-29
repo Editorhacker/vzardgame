@@ -5,6 +5,140 @@ const navLinks = document.querySelector('.nav-links');
 const contactForm = document.getElementById('contactForm');
 const scrollIndicator = document.querySelector('.scroll-indicator');
 
+// Wait for DOM to be fully loaded
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM loaded, initializing OTP handlers...');
+    
+    const sendOtpBtn = document.getElementById('sendOtpBtn');
+    const verifyOtpBtn = document.getElementById('verifyOtpBtn');
+    const teamPhone = document.getElementById('teamPhone');
+    const otpInput = document.getElementById('otp');
+    const otpGroup = document.getElementById('otpGroup');
+
+    console.log('OTP elements:', {
+        sendOtpBtn: !!sendOtpBtn,
+        verifyOtpBtn: !!verifyOtpBtn,
+        teamPhone: !!teamPhone,
+        otpInput: !!otpInput,
+        otpGroup: !!otpGroup
+    });
+
+    if (sendOtpBtn && teamPhone) {
+        sendOtpBtn.addEventListener('click', async function() {
+            const phone = teamPhone.value;
+            console.log('Send OTP clicked for phone:', phone);
+            
+            if (!phone || phone.length !== 10) {
+                showError('teamPhone', 'Please enter a valid 10-digit phone number');
+                return;
+            }
+
+            try {
+                sendOtpBtn.disabled = true;
+                sendOtpBtn.textContent = 'Sending...';
+                
+                console.log('Sending OTP request...');
+                const response = await fetch('/api/send-otp', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ phone })
+                });
+                const data = await response.json();
+                console.log('Server response:', data);
+                
+                if (data.success) {
+                    otpGroup.style.display = 'block';
+                    sendOtpBtn.textContent = 'Resend OTP';
+                    showSuccess('teamPhone', 'OTP sent successfully');
+                } else {
+                    showError('teamPhone', data.error || data.message || 'Failed to send OTP');
+                }
+            } catch (error) {
+                console.error('Frontend error:', error);
+                showError('teamPhone', 'Failed to send OTP. Please try again.');
+            } finally {
+                sendOtpBtn.disabled = false;
+                if (sendOtpBtn.textContent === 'Sending...') {
+                    sendOtpBtn.textContent = 'Send OTP';
+                }
+            }
+        });
+    }
+
+    if (verifyOtpBtn && otpInput) {
+        verifyOtpBtn.addEventListener('click', async function() {
+            const phone = teamPhone.value;
+            const otp = otpInput.value;
+
+            if (!otp || otp.length !== 6) {
+                showError('otp', 'Please enter a valid 6-digit OTP');
+                return;
+            }
+
+            try {
+                verifyOtpBtn.disabled = true;
+                verifyOtpBtn.textContent = 'Verifying...';
+                
+                const response = await fetch('/api/verify-otp', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ phone, otp })
+                });
+                const data = await response.json();
+                console.log('Verification response:', data);
+                
+                if (data.success && data.verified) {
+                    // Show success message
+                    showSuccess('otp', 'Phone number verified successfully!');
+                    
+                    // Mark phone as verified
+                    teamPhone.setAttribute('data-verified', 'true');
+                    teamPhone.readOnly = true;
+                    
+                    // Update UI
+                    otpGroup.style.display = 'none';
+                    sendOtpBtn.style.display = 'none';
+                    
+                    // Add verified badge
+                    const verifiedBadge = document.createElement('span');
+                    verifiedBadge.className = 'verified-badge';
+                    verifiedBadge.innerHTML = '&#10003; Verified';
+                    verifiedBadge.style.color = 'green';
+                    verifiedBadge.style.marginLeft = '10px';
+                    teamPhone.parentElement.appendChild(verifiedBadge);
+                } else {
+                    showError('otp', data.message || 'Invalid OTP. Please try again.');
+                    otpInput.value = ''; // Clear invalid OTP
+                }
+            } catch (error) {
+                console.error('Verification error:', error);
+                showError('otp', 'Failed to verify OTP. Please try again.');
+            } finally {
+                verifyOtpBtn.disabled = false;
+                verifyOtpBtn.textContent = 'Verify OTP';
+            }
+        });
+    }
+});
+
+function showError(elementId, message) {
+    const element = document.getElementById(elementId);
+    const errorDiv = element.parentElement.querySelector('.error-message');
+    errorDiv.textContent = message;
+    errorDiv.style.color = 'red';
+}
+
+function showSuccess(elementId, message) {
+    const element = document.getElementById(elementId);
+    const errorDiv = element.parentElement.querySelector('.error-message');
+    errorDiv.textContent = message;
+    errorDiv.style.color = 'green';
+}
+
 // Navbar Scroll Effect
 window.addEventListener('scroll', () => {
     if (window.scrollY > 100) {
@@ -423,6 +557,7 @@ function createParticle() {
     const size = Math.random() * 5 + 2;
     const x = Math.random() * window.innerWidth;
     const duration = Math.random() * 3 + 2;
+    const increment = size / duration;
     
     particle.style.cssText = `
         width: ${size}px;
