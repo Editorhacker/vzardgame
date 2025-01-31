@@ -53,7 +53,7 @@ app.post('/admin/login', (req, res) => {
     const { username, password } = req.body;
     
     // Simple authentication
-    if (username === 'Admin' && password === 'admin') {
+    if (username === 'VZARD' && password === 'vz@rd') {
         req.session.isAdmin = true;
         res.json({ success: true });
     } else {
